@@ -11,10 +11,34 @@ import {
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
 
+import { achievementsReducer } from './slices/achievements/slice';
+import { gameplayReducer } from './slices/gameplay/slice';
 import { onboardingReducer } from './slices/onboarding/slice';
+import { resultsReducer } from './slices/results/slice';
+import { settingsReducer } from './slices/settings/slice';
 
 const onboardingPersistConfig = {
   key: 'onboarding',
+  storage: AsyncStorage,
+};
+
+const settingsPersistConfig = {
+  key: 'settings',
+  storage: AsyncStorage,
+};
+
+const gameplayPersistConfig = {
+  key: 'gameplay',
+  storage: AsyncStorage,
+};
+
+const achievementsPersistConfig = {
+  key: 'achievements',
+  storage: AsyncStorage,
+};
+
+const resultsPersistConfig = {
+  key: 'results',
   storage: AsyncStorage,
 };
 
@@ -23,9 +47,33 @@ const persistedOnboardingReducer = persistReducer(
   onboardingReducer,
 );
 
+const persistedSettingsReducer = persistReducer(
+  settingsPersistConfig,
+  settingsReducer,
+);
+
+const persistedGameplayReducer = persistReducer(
+  gameplayPersistConfig,
+  gameplayReducer,
+);
+
+const persistedAchievementsReducer = persistReducer(
+  achievementsPersistConfig,
+  achievementsReducer,
+);
+
+const persistedResultsReducer = persistReducer(
+  resultsPersistConfig,
+  resultsReducer,
+);
+
 const store = configureStore({
   reducer: {
     onboarding: persistedOnboardingReducer,
+    settings: persistedSettingsReducer,
+    gameplay: persistedGameplayReducer,
+    achievements: persistedAchievementsReducer,
+    results: persistedResultsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

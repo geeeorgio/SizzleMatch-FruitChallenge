@@ -31,4 +31,5 @@ export const GAME_ITEMS = {
   share: require('../assets/images/items/share.png'),
   prevPage: require('../assets/images/items/prevPage.png'),
   nextPage: require('../assets/images/items/nextPage.png'),
+  heart: require('../assets/images/items/heart.png'),
 };
