@@ -1,70 +1,72 @@
 import { StyleSheet } from 'react-native';
 
+import { FONTS } from 'src/constants';
+import { hp, sp, wp } from 'src/utils';
+
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'space-between',
+    flex: 0.7,
+    width: '100%',
+    maxHeight: hp(600),
+    padding: hp(16),
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 20,
+  closeWrapper: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 10,
+  },
+  closeButton: {
+    width: wp(28),
+    height: wp(28),
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: sp(22),
     textAlign: 'center',
-    flex: 1,
-  },
-  backButton: {
-    width: 24,
-    height: 24,
+    marginTop: hp(8),
+    marginBottom: hp(22),
   },
   achievementsContainer: {
     flex: 1,
-    gap: 16,
-    marginTop: 20,
+    width: '100%',
+  },
+  achievementsList: {
+    paddingBottom: hp(16),
+    gap: wp(16),
+  },
+  achievementsColumnWrapper: {
+    justifyContent: 'space-between',
+    gap: wp(16),
   },
   achievementItem: {
-    flexDirection: 'row',
-    padding: 16,
+    flex: 1,
     alignItems: 'center',
-    marginBottom: 12,
-  },
-  achievementItemCompleted: {
-    borderWidth: 2,
-    borderColor: '#FFD700',
-    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+    justifyContent: 'flex-start',
   },
   achievementImage: {
-    width: 60,
-    height: 60,
-    marginRight: 16,
-    opacity: 0.5,
-  },
-  achievementImageCompleted: {
-    opacity: 1,
+    width: '100%',
+    height: hp(120),
+    marginBottom: hp(12),
   },
   achievementInfo: {
-    flex: 1,
+    alignItems: 'center',
+    width: '100%',
   },
   achievementTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#999',
-  },
-  achievementTitleCompleted: {
-    color: '#FFD700',
+    fontSize: sp(15),
+    marginBottom: hp(4),
+    textAlign: 'center',
   },
   achievementDescription: {
-    fontSize: 14,
-    color: '#ccc',
+    fontSize: sp(11),
+    fontFamily: FONTS.RobotoItalic,
+    textAlign: 'center',
+    lineHeight: sp(16),
   },
 });

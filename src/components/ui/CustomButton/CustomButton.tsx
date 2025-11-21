@@ -35,6 +35,7 @@ const CustomButton = ({
         buttonStyle,
         pressed && styles.btnPressed,
         fullWidth && { alignSelf: 'stretch' },
+        isDisabled && styles.disabled,
       ]}
       onPress={handlePress}
       disabled={isDisabled}

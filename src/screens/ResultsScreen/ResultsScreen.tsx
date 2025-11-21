@@ -9,6 +9,7 @@ import {
   CustomContainer,
   CustomScreenWrapper,
   CustomText,
+  FrameContainer,
 } from 'src/components';
 import { GAME_ITEMS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks/toolkit';
@@ -46,27 +47,26 @@ const ResultsScreen = () => {
     return `${day}.${month}.${year}`;
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  };
-
-  const formatLevel = (gameMode: string, level: number) => {
-    const modeCapitalized =
-      gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
-    return `${modeCapitalized} — L${level}`;
+  const formatMode = (mode: string) => {
+    return mode.charAt(0).toUpperCase() + mode.slice(1);
   };
 
   return (
     <CustomScreenWrapper extraStyle={styles.wrapper}>
       <CustomContainer variant="yellow" extraStyle={styles.container}>
-        <View style={styles.header}>
-          <CustomText extraStyle={styles.title}>Game Results</CustomText>
-          <Pressable onPress={handleBack}>
-            <Image source={GAME_ITEMS.close} style={styles.closeButton} />
-          </Pressable>
-        </View>
+        <Pressable
+          onPress={handleBack}
+          style={styles.closeWrapper}
+          hitSlop={10}
+        >
+          <Image
+            source={GAME_ITEMS.close}
+            style={styles.closeButton}
+            resizeMode="contain"
+          />
+        </Pressable>
+
+        <CustomText extraStyle={styles.title}>Game Results</CustomText>
 
         {results.length === 0 ? (
           <View style={styles.emptyContainer}>
@@ -75,90 +75,86 @@ const ResultsScreen = () => {
             </CustomText>
           </View>
         ) : (
-          <ScrollView style={styles.resultsContainer}>
-            <View style={styles.tableHeader}>
-              <CustomText extraStyle={styles.headerText}>Level</CustomText>
-              <CustomText extraStyle={styles.headerText}>Date</CustomText>
-              <CustomText extraStyle={styles.headerText}>Time</CustomText>
-            </View>
+          <ScrollView
+            style={styles.resultsContainer}
+            showsVerticalScrollIndicator={false}
+          >
             {results.map((result, index) => (
               <View key={index} style={styles.resultRow}>
-                <View style={styles.resultCell}>
-                  <CustomText extraStyle={styles.resultText}>
-                    {formatLevel(result.gameMode, result.level)}
-                  </CustomText>
-                </View>
-                <View style={styles.resultCell}>
-                  <CustomText extraStyle={styles.resultText}>
-                    {formatDate(result.date)}
-                  </CustomText>
-                </View>
-                <View style={styles.resultCell}>
-                  <CustomText
-                    extraStyle={[
-                      styles.resultText,
-                      result.status === 'completed'
-                        ? styles.resultTextSuccess
-                        : styles.resultTextFailed,
-                    ]}
-                  >
-                    {formatTime(result.time)}
-                  </CustomText>
-                </View>
+                <CustomText extraStyle={[styles.resultText, styles.colDate]}>
+                  {formatDate(result.date)}
+                </CustomText>
+
+                <CustomText extraStyle={[styles.resultText, styles.colMode]}>
+                  {formatMode(result.gameMode)}
+                </CustomText>
+
+                <CustomText extraStyle={[styles.resultText, styles.colTime]}>
+                  {result.time}
+                </CustomText>
               </View>
             ))}
           </ScrollView>
         )}
 
-        {results.length > 0 && (
-          <CustomButton
-            variant="yellow"
-            handlePress={handleClear}
-            buttonStyle={styles.clearButton}
-            extraContainerStyle={styles.clearButtonContainer}
-          >
-            <CustomText extraStyle={styles.clearButtonText}>Clear</CustomText>
-          </CustomButton>
-        )}
-
-        <Modal
-          visible={showClearDialog}
-          transparent
-          animationType="fade"
-          onRequestClose={handleCancelClear}
+        <CustomButton
+          variant="yellow"
+          handlePress={handleClear}
+          extraContainerStyle={styles.clearButtonContainer}
+          buttonStyle={styles.clearButton}
+          isDisabled={results.length === 0}
         >
-          <View style={styles.dialogOverlay}>
-            <View style={styles.dialogContainer}>
+          <CustomText extraStyle={styles.clearButtonText}>Clear</CustomText>
+        </CustomButton>
+      </CustomContainer>
+
+      <Modal
+        visible={showClearDialog}
+        transparent
+        animationType="fade"
+        statusBarTranslucent
+        onRequestClose={handleCancelClear}
+      >
+        <Pressable style={styles.modalOverlay} onPress={handleCancelClear}>
+          <Pressable
+            style={styles.dialogWrapper}
+            onPress={(e) => e.stopPropagation()}
+          >
+            <FrameContainer extraStyle={styles.dialogContainer}>
               <CustomText extraStyle={styles.dialogTitle}>
                 Are you sure you want to delete all records?
               </CustomText>
               <CustomText extraStyle={styles.dialogMessage}>
                 This action cannot be undone.
               </CustomText>
-              <View style={styles.dialogButtons}>
-                <CustomButton
-                  variant="red"
-                  handlePress={handleConfirmClear}
-                  buttonStyle={styles.dialogButton}
-                >
-                  <CustomText extraStyle={styles.dialogButtonText}>
-                    Confirm
-                  </CustomText>
-                </CustomButton>
-                <CustomButton
-                  variant="green"
-                  handlePress={handleCancelClear}
-                  buttonStyle={styles.dialogButton}
-                >
-                  <CustomText extraStyle={styles.dialogButtonText}>
-                    Cancel
-                  </CustomText>
-                </CustomButton>
-              </View>
+            </FrameContainer>
+
+            <View style={styles.dialogButtons}>
+              <CustomButton
+                variant="red"
+                handlePress={handleConfirmClear}
+                extraContainerStyle={styles.dialogBtnContainer}
+                buttonStyle={styles.dialogBtn}
+              >
+                <CustomText extraStyle={styles.dialogBtnText}>
+                  Confirm
+                </CustomText>
+              </CustomButton>
+
+              <CustomButton
+                variant="green"
+                handlePress={handleCancelClear}
+                extraContainerStyle={styles.dialogBtnContainer}
+                buttonStyle={styles.dialogBtn}
+              >
+                <CustomText extraStyle={styles.dialogBtnText}>
+                  Cancel
+                </CustomText>
+              </CustomButton>
             </View>
-          </View>
-        </Modal>
-      </CustomContainer>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </CustomScreenWrapper>
   );
 };

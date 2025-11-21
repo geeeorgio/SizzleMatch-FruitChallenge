@@ -1,114 +1,128 @@
 import { StyleSheet } from 'react-native';
 
+import { COLORS } from 'src/constants';
+import { hp, sp, wp } from 'src/utils';
+
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  header: {
-    flexDirection: 'row',
+    flex: 0.6,
+    maxHeight: hp(600),
+    width: '100%',
+    padding: wp(16),
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 20,
+    position: 'relative',
+  },
+  closeWrapper: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+  closeButton: {
+    width: wp(28),
+    height: wp(28),
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: sp(22),
     textAlign: 'center',
-    flex: 1,
-  },
-  backButton: {
-    width: 24,
-    height: 24,
   },
   settingsContainer: {
-    flex: 1,
-    gap: 16,
-    marginTop: 20,
-  },
-  settingItem: {
-    padding: 16,
-    marginBottom: 12,
+    width: '100%',
+    gap: hp(20),
   },
   settingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
   },
   settingLabel: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  toggle: {
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: '#666',
-    minWidth: 80,
-    alignItems: 'center',
-  },
-  toggleActive: {
-    backgroundColor: '#4CAF50',
-  },
-  toggleText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-  },
-  toggleTextActive: {
-    color: '#fff',
-  },
-  difficultyContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    marginTop: 12,
-    justifyContent: 'space-around',
-  },
-  difficultyButton: {
-    flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: '#666',
-    alignItems: 'center',
-  },
-  difficultyButtonActive: {
-    backgroundColor: '#FFD700',
-  },
-  difficultyText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
-  },
-  difficultyTextActive: {
-    color: '#000',
-  },
-  shareRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
+    fontSize: sp(20),
   },
   shareIcon: {
-    width: 24,
-    height: 24,
+    width: wp(48),
+    height: hp(24),
   },
-  closeButton: {
-    width: 24,
-    height: 24,
+  toggleTrack: {
+    width: wp(48),
+    height: hp(24),
+    borderRadius: hp(14),
+    justifyContent: 'center',
+    padding: wp(2),
+  },
+  trackOn: {
+    backgroundColor: COLORS.white,
+  },
+  trackOff: {
+    backgroundColor: COLORS.gray,
+  },
+  toggleKnob: {
+    width: wp(18),
+    height: wp(18),
+    borderRadius: wp(9),
+  },
+  knobOn: {
+    backgroundColor: COLORS.yellow,
+    alignSelf: 'flex-end',
+    marginLeft: wp(2),
+  },
+  knobOff: {
+    backgroundColor: COLORS.yellow,
+    alignSelf: 'flex-start',
+    marginLeft: wp(2),
+  },
+
+  difficultySection: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: hp(20),
+  },
+  difficultyTitle: {
+    fontSize: sp(20),
+    marginBottom: hp(20),
+  },
+  difficultySelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '75%',
+  },
+  difficultyValue: {
+    fontSize: sp(18),
+    textAlign: 'center',
+    minWidth: wp(70),
+  },
+  arrowButton: {
+    padding: hp(6),
+  },
+  arrowCircle: {
+    width: wp(28),
+    height: wp(28),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  arrowIcon: {
+    width: '100%',
+    height: '100%',
   },
   saveButton: {
-    paddingVertical: 16,
+    width: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   saveButtonContainer: {
-    marginBottom: 20,
+    width: '100%',
+    paddingVertical: hp(8),
   },
   saveButtonText: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: sp(18),
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
 });

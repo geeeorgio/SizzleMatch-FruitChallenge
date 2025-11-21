@@ -8,4 +8,7 @@ export const styles = StyleSheet.create({
   btnPressed: {
     opacity: 0.5,
   },
+  disabled: {
+    opacity: 0.33,
+  },
 });

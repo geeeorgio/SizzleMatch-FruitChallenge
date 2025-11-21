@@ -1,12 +1,14 @@
 import { StyleSheet } from 'react-native';
 
+import { wp } from 'src/utils';
+
 export const styles = StyleSheet.create({
   button: {
     flex: 1,
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 4,
+    margin: wp(4),
   },
   image: {
     width: '100%',

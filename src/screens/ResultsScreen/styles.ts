@@ -1,131 +1,133 @@
 import { StyleSheet } from 'react-native';
 
+import { FONTS } from 'src/constants';
+import { hp, sp, wp } from 'src/utils';
+
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
-    flex: 1,
-    padding: 20,
-  },
-  header: {
-    flexDirection: 'row',
+    flex: 0.6,
+    width: '100%',
+    maxHeight: hp(600),
+    padding: wp(16),
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 20,
+    position: 'relative',
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    flex: 1,
+  closeWrapper: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
   },
   closeButton: {
-    width: 24,
-    height: 24,
+    width: wp(28),
+    height: wp(28),
+  },
+  title: {
+    fontSize: sp(22),
+    textAlign: 'center',
+    marginBottom: hp(24),
   },
   emptyContainer: {
-    flex: 1,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   emptyText: {
-    fontSize: 18,
-    color: '#999',
+    fontSize: sp(20),
     textAlign: 'center',
+    lineHeight: sp(26),
+    maxWidth: '80%',
   },
   resultsContainer: {
-    flex: 1,
-    marginTop: 20,
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  headerText: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    width: '100%',
+    maxHeight: hp(333),
   },
   resultRow: {
     flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginBottom: 8,
+    justifyContent: 'space-between',
+    paddingVertical: hp(6),
+    paddingHorizontal: wp(8),
   },
-  resultCell: {
+  colDate: {
     flex: 1,
-    justifyContent: 'center',
+    textAlign: 'left',
+  },
+  colMode: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  colTime: {
+    flex: 0.5,
+    textAlign: 'right',
   },
   resultText: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: '#fff',
-  },
-  resultTextSuccess: {
-    color: '#4CAF50',
-    fontWeight: '600',
-  },
-  resultTextFailed: {
-    color: '#f44336',
-    fontWeight: '600',
+    fontSize: sp(16),
   },
   clearButton: {
-    paddingVertical: 12,
-    marginTop: 16,
-  },
-  clearButtonContainer: {
-    marginBottom: 20,
-  },
-  clearButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  dialogOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: '40%',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  clearButtonContainer: {
+    width: '100%',
+    paddingVertical: hp(8),
+  },
+  clearButtonText: {
+    fontSize: sp(16),
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dialogWrapper: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: hp(22),
+  },
   dialogContainer: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    padding: 24,
-    minWidth: 300,
-    borderWidth: 2,
-    borderColor: '#FF6B00',
+    width: '100%',
   },
   dialogTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontSize: sp(18),
+    fontFamily: FONTS.RobotoBold,
     textAlign: 'center',
-    marginBottom: 12,
+    lineHeight: sp(26),
+    marginBottom: hp(20),
   },
   dialogMessage: {
-    fontSize: 16,
-    color: '#ccc',
+    fontSize: sp(18),
+    fontFamily: FONTS.RobotoItalic,
     textAlign: 'center',
-    marginBottom: 24,
+    lineHeight: sp(24),
+    marginBottom: hp(8),
   },
   dialogButtons: {
+    width: '100%',
     flexDirection: 'row',
-    gap: 12,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
-  dialogButton: {
-    flex: 1,
-    paddingVertical: 12,
+  dialogBtn: {
+    flex: 0.33,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  dialogButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
+  dialogBtnContainer: {
+    width: '100%',
+    paddingVertical: hp(6),
+  },
+  dialogBtnText: {
+    fontSize: sp(18),
+    fontFamily: FONTS.RobotoBold,
   },
 });

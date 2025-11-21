@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, Pressable, View } from 'react-native';
+import { FlatList, Image, Pressable, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -11,13 +11,13 @@ import {
 } from 'src/components';
 import { GAME_ITEMS } from 'src/constants';
 import { useAppSelector } from 'src/hooks/toolkit';
-import { selectCompletedAchievements } from 'src/redux/slices/achievements/selectors';
+import { selectAchievements } from 'src/redux/slices/achievements/selectors';
 import type { MainStackNavigationProp } from 'src/types';
 
 const AchievementsScreen = () => {
   const navigation = useNavigation<MainStackNavigationProp>();
 
-  const completedAchievements = useAppSelector(selectCompletedAchievements);
+  const achievements = useAppSelector(selectAchievements);
 
   const handleBack = () => {
     navigation.goBack();
@@ -26,52 +26,49 @@ const AchievementsScreen = () => {
   return (
     <CustomScreenWrapper extraStyle={styles.wrapper}>
       <CustomContainer variant="yellow" extraStyle={styles.container}>
-        <View style={styles.header}>
-          <CustomText extraStyle={styles.title}>Achievements</CustomText>
-          <Pressable onPress={handleBack}>
-            <Image source={GAME_ITEMS.close} style={styles.backButton} />
-          </Pressable>
-        </View>
+        <Pressable style={styles.closeWrapper} onPress={handleBack}>
+          <Image
+            source={GAME_ITEMS.close}
+            style={styles.closeButton}
+            resizeMode="contain"
+          />
+        </Pressable>
+
+        <CustomText extraStyle={styles.title}>Achievements</CustomText>
 
         <View style={styles.achievementsContainer}>
-          {completedAchievements?.map((achievement) => {
-            return (
-              <View
-                key={achievement.id}
-                style={[
-                  styles.achievementItem,
-                  achievement.isCompleted && styles.achievementItemCompleted,
-                ]}
-              >
-                <Image
-                  source={
-                    achievement.isCompleted
-                      ? achievement.completedReward
-                      : achievement.defaultReward
-                  }
-                  style={[
-                    styles.achievementImage,
-                    achievement.isCompleted && styles.achievementImageCompleted,
-                  ]}
-                  resizeMode="contain"
-                />
-                <View style={styles.achievementInfo}>
-                  <CustomText
-                    extraStyle={[
-                      styles.achievementTitle,
-                      achievement.isCompleted &&
-                        styles.achievementTitleCompleted,
-                    ]}
-                  >
-                    {achievement.title}
-                  </CustomText>
-                  <CustomText extraStyle={styles.achievementDescription}>
-                    {achievement.description}
-                  </CustomText>
+          <FlatList
+            data={achievements}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.achievementsList}
+            numColumns={2}
+            columnWrapperStyle={styles.achievementsColumnWrapper}
+            renderItem={({ item }) => {
+              const isCompleted = item.isCompleted;
+              const iconSource = isCompleted
+                ? item.completedReward
+                : item.defaultReward;
+
+              return (
+                <View style={styles.achievementItem}>
+                  <Image
+                    source={iconSource}
+                    resizeMode="contain"
+                    style={styles.achievementImage}
+                  />
+                  <View style={styles.achievementInfo}>
+                    <CustomText extraStyle={styles.achievementTitle}>
+                      {item.title}
+                    </CustomText>
+                    <CustomText extraStyle={styles.achievementDescription}>
+                      {item.description}
+                    </CustomText>
+                  </View>
                 </View>
-              </View>
-            );
-          })}
+              );
+            }}
+          />
         </View>
       </CustomContainer>
     </CustomScreenWrapper>

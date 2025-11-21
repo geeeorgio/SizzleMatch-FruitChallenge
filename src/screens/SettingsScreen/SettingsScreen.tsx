@@ -25,6 +25,8 @@ import {
 import type { GameMode, MainStackNavigationProp } from 'src/types';
 import { handleShare } from 'src/utils/handleShare';
 
+const MODES: GameMode[] = ['easy', 'classic', 'heat'];
+
 const SettingsScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<MainStackNavigationProp>();
@@ -45,106 +47,108 @@ const SettingsScreen = () => {
     dispatch(setIsVibrationEnabled(!isVibrationEnabled));
   };
 
-  const handleDifficultyChange = (mode: GameMode) => {
-    dispatch(setGameMode(mode));
+  const handlePrevMode = () => {
+    const currentIndex = MODES.indexOf(gameMode);
+    const prevIndex = (currentIndex - 1 + MODES.length) % MODES.length;
+    dispatch(setGameMode(MODES[prevIndex]));
+  };
+
+  const handleNextMode = () => {
+    const currentIndex = MODES.indexOf(gameMode);
+    const nextIndex = (currentIndex + 1) % MODES.length;
+    dispatch(setGameMode(MODES[nextIndex]));
   };
 
   const handleShareApp = () => {
     handleShare();
   };
 
+  const formatMode = (mode: string) => {
+    return mode.charAt(0).toUpperCase() + mode.slice(1);
+  };
+
   return (
     <CustomScreenWrapper extraStyle={styles.wrapper}>
       <CustomContainer variant="yellow" extraStyle={styles.container}>
-        <View style={styles.header}>
-          <CustomText extraStyle={styles.title}>Settings</CustomText>
-          <Pressable onPress={handleBack}>
-            <Image source={GAME_ITEMS.close} style={styles.backButton} />
+        <Pressable
+          onPress={handleBack}
+          style={styles.closeWrapper}
+          hitSlop={10}
+        >
+          <Image source={GAME_ITEMS.close} style={styles.closeButton} />
+        </Pressable>
+
+        <CustomText extraStyle={styles.title}>Settings</CustomText>
+
+        <View style={styles.settingsContainer}>
+          <View style={styles.settingRow}>
+            <CustomText extraStyle={styles.settingLabel}>Sounds</CustomText>
+            <Pressable onPress={handleSoundToggle}>
+              <View
+                style={[
+                  styles.toggleTrack,
+                  isSoundEnabled ? styles.trackOn : styles.trackOff,
+                ]}
+              >
+                <View
+                  style={[
+                    styles.toggleKnob,
+                    isSoundEnabled ? styles.knobOn : styles.knobOff,
+                  ]}
+                />
+              </View>
+            </Pressable>
+          </View>
+
+          <View style={styles.settingRow}>
+            <CustomText extraStyle={styles.settingLabel}>Vibration</CustomText>
+            <Pressable onPress={handleVibrationToggle}>
+              <View
+                style={[
+                  styles.toggleTrack,
+                  isVibrationEnabled ? styles.trackOn : styles.trackOff,
+                ]}
+              >
+                <View
+                  style={[
+                    styles.toggleKnob,
+                    isVibrationEnabled ? styles.knobOn : styles.knobOff,
+                  ]}
+                />
+              </View>
+            </Pressable>
+          </View>
+
+          <Pressable style={styles.settingRow} onPress={handleShareApp}>
+            <CustomText extraStyle={styles.settingLabel}>Share App</CustomText>
+            <Image
+              source={GAME_ITEMS.share}
+              style={styles.shareIcon}
+              resizeMode="contain"
+            />
           </Pressable>
         </View>
 
-        <View style={styles.settingsContainer}>
-          <View style={styles.settingItem}>
-            <View style={styles.settingRow}>
-              <CustomText extraStyle={styles.settingLabel}>Sounds</CustomText>
-              <Pressable
-                style={[styles.toggle, isSoundEnabled && styles.toggleActive]}
-                onPress={handleSoundToggle}
-              >
-                <CustomText
-                  extraStyle={[
-                    styles.toggleText,
-                    isSoundEnabled && styles.toggleTextActive,
-                  ]}
-                >
-                  {isSoundEnabled ? 'On' : 'Off'}
-                </CustomText>
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.settingItem}>
-            <View style={styles.settingRow}>
-              <CustomText extraStyle={styles.settingLabel}>
-                Vibration
-              </CustomText>
-              <Pressable
-                style={[
-                  styles.toggle,
-                  isVibrationEnabled && styles.toggleActive,
-                ]}
-                onPress={handleVibrationToggle}
-              >
-                <CustomText
-                  extraStyle={[
-                    styles.toggleText,
-                    isVibrationEnabled && styles.toggleTextActive,
-                  ]}
-                >
-                  {isVibrationEnabled ? 'On' : 'Off'}
-                </CustomText>
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.settingItem}>
-            <Pressable style={styles.shareRow} onPress={handleShareApp}>
-              <CustomText extraStyle={styles.settingLabel}>
-                Share App
-              </CustomText>
-              <Image
-                source={GAME_ITEMS.share}
-                style={styles.shareIcon}
-                resizeMode="contain"
-              />
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={styles.settingItem}>
-          <CustomText extraStyle={styles.settingLabel}>
-            Difficulty level
+        <View style={styles.difficultySection}>
+          <CustomText extraStyle={styles.difficultyTitle}>
+            Difficulty
           </CustomText>
-          <View style={styles.difficultyContainer}>
-            {(['easy', 'classic', 'heat'] as GameMode[]).map((mode) => (
-              <Pressable
-                key={mode}
-                style={[
-                  styles.difficultyButton,
-                  gameMode === mode && styles.difficultyButtonActive,
-                ]}
-                onPress={() => handleDifficultyChange(mode)}
-              >
-                <CustomText
-                  extraStyle={[
-                    styles.difficultyText,
-                    gameMode === mode && styles.difficultyTextActive,
-                  ]}
-                >
-                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
-                </CustomText>
-              </Pressable>
-            ))}
+          <View style={styles.difficultySelector}>
+            <Pressable onPress={handlePrevMode} style={styles.arrowButton}>
+              <View style={styles.arrowCircle}>
+                <Image source={GAME_ITEMS.prevPage} style={styles.arrowIcon} />
+              </View>
+            </Pressable>
+
+            <CustomText extraStyle={styles.difficultyValue}>
+              {formatMode(gameMode)}
+            </CustomText>
+
+            <Pressable onPress={handleNextMode} style={styles.arrowButton}>
+              <View style={styles.arrowCircle}>
+                <Image source={GAME_ITEMS.nextPage} style={styles.arrowIcon} />
+              </View>
+            </Pressable>
           </View>
         </View>
 
