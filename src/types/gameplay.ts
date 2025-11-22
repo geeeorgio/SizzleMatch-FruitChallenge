@@ -1,3 +1,4 @@
+export type GameMode = 'easy' | 'classic' | 'heat';
 export type GameStatus =
   | 'pending'
   | 'paused'
@@ -5,10 +6,29 @@ export type GameStatus =
   | 'completed'
   | 'failed';
 
-export type GameMode = 'easy' | 'classic' | 'heat';
-
-export type FruitItem = {
-  id: string;
-  fruitImage: string;
-  fruitName: string;
+export type SessionGame = {
+  gameLevel: number;
+  gameTime: number;
+  gameLives: number;
 };
+
+export type CardState = {
+  flippedCardIds: string[];
+  matchedCardIds: string[];
+  selectedCardIds: string[];
+  consecutiveMatches: number;
+  levelsWithoutMistakes: number;
+  unlockedFruits: string[];
+};
+
+export type BestTimes = {
+  easy: number;
+  classic: number;
+  heat: number;
+};
+
+export interface FruitItem {
+  id: string;
+  fruitImage: any;
+  fruitName: string;
+}

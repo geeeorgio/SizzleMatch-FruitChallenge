@@ -16,14 +16,8 @@ import {
   selectIsGamePaused,
   selectIsGameStarted,
   selectIsPlaying,
-  selectSessionGameLevel,
 } from 'src/redux/slices/gameplay/selectors';
-import {
-  resetGame,
-  setGamePaused,
-  setGameResumed,
-} from 'src/redux/slices/gameplay/slice';
-import { selectGameMode } from 'src/redux/slices/settings/selectors';
+import { resetGame, setGameResumed } from 'src/redux/slices/gameplay/slice';
 import type { MainStackNavigationProp } from 'src/types';
 
 const GameScreen = () => {
@@ -34,14 +28,8 @@ const GameScreen = () => {
   const isGameStarted = useAppSelector(selectIsGameStarted);
   const gameStatus = useAppSelector(selectGameStatus);
   const isGamePaused = useAppSelector(selectIsGamePaused);
-  const sessionGameLevel = useAppSelector(selectSessionGameLevel);
-  const gameMode = useAppSelector(selectGameMode);
 
   const showResults = gameStatus === 'completed' || gameStatus === 'failed';
-
-  const handleGamePause = () => {
-    dispatch(setGamePaused());
-  };
 
   const handleGameResume = () => {
     dispatch(setGameResumed());
@@ -56,13 +44,7 @@ const GameScreen = () => {
     <CustomScreenWrapper extraStyle={styles.container}>
       {!isGameStarted && <GameSetup />}
 
-      {isPlaying && (
-        <MainGame
-          gameMode={gameMode}
-          sessionGameLevel={sessionGameLevel}
-          handleGamePause={handleGamePause}
-        />
-      )}
+      {isPlaying && <MainGame />}
 
       {showResults && (
         <Results isVisible={showResults} gameStatus={gameStatus} />

@@ -14,17 +14,7 @@ export const selectSessionGameTime = (state: RootState) =>
 export const selectSessionGameLives = (state: RootState) =>
   state.gameplay.sessionGame.gameLives;
 
-export const selectSessionGameScore = (state: RootState) =>
-  state.gameplay.sessionGame.gameScore;
-
-export const selectSessionGameProgress = (state: RootState) =>
-  state.gameplay.sessionGame.gameProgress;
-
-export const selectTotalGameScore = (state: RootState) =>
-  state.gameplay.totalGameScore;
-
-export const selectTotalGameProgress = (state: RootState) =>
-  state.gameplay.totalGameProgress;
+export const selectBestTimes = (state: RootState) => state.gameplay.bestTimes;
 
 export const selectGameStatus = (state: RootState) => state.gameplay.gameStatus;
 

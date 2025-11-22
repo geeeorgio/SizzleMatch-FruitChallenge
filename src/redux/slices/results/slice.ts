@@ -1,12 +1,13 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
+import type { GameMode } from 'src/types';
+
 export interface GameResult {
   level: number;
   date: string;
   time: number;
-  gameMode: string;
-  status: 'completed' | 'failed';
+  gameMode: GameMode;
 }
 
 interface ResultsState {

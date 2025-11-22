@@ -23,6 +23,7 @@ import {
   setIsVibrationEnabled,
 } from 'src/redux/slices/settings/slice';
 import type { GameMode, MainStackNavigationProp } from 'src/types';
+import { triggerVibration } from 'src/utils';
 import { handleShare } from 'src/utils/handleShare';
 
 const MODES: GameMode[] = ['easy', 'classic', 'heat'];
@@ -44,7 +45,12 @@ const SettingsScreen = () => {
   };
 
   const handleVibrationToggle = () => {
-    dispatch(setIsVibrationEnabled(!isVibrationEnabled));
+    if (isVibrationEnabled) {
+      dispatch(setIsVibrationEnabled(!isVibrationEnabled));
+    } else {
+      dispatch(setIsVibrationEnabled(true));
+      triggerVibration(true);
+    }
   };
 
   const handlePrevMode = () => {

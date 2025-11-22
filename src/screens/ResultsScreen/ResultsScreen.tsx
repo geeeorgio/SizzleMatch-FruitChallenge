@@ -13,43 +13,27 @@ import {
 } from 'src/components';
 import { GAME_ITEMS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks/toolkit';
+import { selectResults } from 'src/redux/slices/results/selectors';
 import { clearResults } from 'src/redux/slices/results/slice';
 import type { MainStackNavigationProp } from 'src/types';
+import { formatDate, formatMode } from 'src/utils';
 
 const ResultsScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<MainStackNavigationProp>();
-  const results = useAppSelector((state) => state.results.results);
+  const results = useAppSelector(selectResults);
   const [showClearDialog, setShowClearDialog] = useState(false);
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
+  const handleBack = () => navigation.goBack();
 
-  const handleClear = () => {
-    setShowClearDialog(true);
-  };
+  const handleClear = () => setShowClearDialog(true);
 
   const handleConfirmClear = () => {
     dispatch(clearResults());
     setShowClearDialog(false);
   };
 
-  const handleCancelClear = () => {
-    setShowClearDialog(false);
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}.${month}.${year}`;
-  };
-
-  const formatMode = (mode: string) => {
-    return mode.charAt(0).toUpperCase() + mode.slice(1);
-  };
+  const handleCancelClear = () => setShowClearDialog(false);
 
   return (
     <CustomScreenWrapper extraStyle={styles.wrapper}>

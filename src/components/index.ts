@@ -6,7 +6,6 @@ import CustomContainer from './ui/CustomContainer/CustomContainer';
 import CustomScreenWrapper from './ui/CustomScreenWrapper/CustomScreenWrapper';
 import CustomText from './ui/CustomText/CustomText';
 import FrameContainer from './ui/FrameContainer/FrameContainer';
-import CardList from './ui/Game/CardList/CardList';
 import CardListItem from './ui/Game/CardListItem/CardListItem';
 import GameModal from './ui/Game/GameModal/GameModal';
 import GameSetup from './ui/Game/GameSetup/GameSetup';
@@ -20,7 +19,6 @@ export {
   CustomScreenWrapper,
   CustomText,
   FrameContainer,
-  CardList,
   CardListItem,
   GameModal,
   GameSetup,

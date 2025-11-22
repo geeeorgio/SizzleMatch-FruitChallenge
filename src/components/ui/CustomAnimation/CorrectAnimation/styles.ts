@@ -4,9 +4,9 @@ export const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 99,
-    pointerEvents: 'none',
     justifyContent: 'center',
     alignItems: 'center',
+    pointerEvents: 'none',
   },
   lottie: {
     width: '100%',

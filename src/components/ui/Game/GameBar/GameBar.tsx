@@ -22,35 +22,45 @@ const GameBar = () => {
   const sessionGameTime = useAppSelector(selectSessionGameTime);
   const sessionGameLives = useAppSelector(selectSessionGameLives);
   const gameStatus = useAppSelector(selectGameStatus);
-  const timeRef = useRef(sessionGameTime);
 
-  useEffect(() => {
-    timeRef.current = sessionGameTime;
-  }, [sessionGameTime]);
+  const startTimeRef = useRef<number | null>(null);
+  const initialDurationRef = useRef<number>(sessionGameTime);
 
   useEffect(() => {
     if (gameStatus !== 'in-progress') {
-      return;
+      startTimeRef.current = null;
+    } else {
+      startTimeRef.current = Date.now();
+      initialDurationRef.current = sessionGameTime;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameStatus]);
 
-    if (timeRef.current <= 0) {
-      dispatch(setSessionGameTime(0));
-      dispatch(setGameStatus('failed'));
-      return;
-    }
+  useEffect(() => {
+    if (gameStatus !== 'in-progress') return;
 
     const timer = setInterval(() => {
-      const newTime = timeRef.current - 1;
-      timeRef.current = newTime;
-      dispatch(setSessionGameTime(newTime));
+      if (!startTimeRef.current) return;
 
-      if (newTime <= 0) {
+      const now = Date.now();
+      const elapsedSeconds = Math.floor((now - startTimeRef.current) / 1000);
+      const remaining = Math.max(
+        0,
+        initialDurationRef.current - elapsedSeconds,
+      );
+
+      if (remaining !== sessionGameTime) {
+        dispatch(setSessionGameTime(remaining));
+      }
+
+      if (remaining <= 0) {
+        clearInterval(timer);
         dispatch(setGameStatus('failed'));
       }
-    }, 1000);
+    }, 250);
 
     return () => clearInterval(timer);
-  }, [dispatch, gameStatus]);
+  }, [dispatch, gameStatus, sessionGameTime]);
 
   return (
     <View style={styles.container}>

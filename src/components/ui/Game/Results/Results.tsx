@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Image, Modal, View } from 'react-native';
 
 import { styles } from './styles';
@@ -21,6 +21,7 @@ import {
   resetSessionGame,
   setGameStarted,
   setGameStatus,
+  updateBestTime,
 } from 'src/redux/slices/gameplay/slice';
 import { addResult } from 'src/redux/slices/results/slice';
 import { selectGameMode } from 'src/redux/slices/settings/selectors';
@@ -39,36 +40,42 @@ const Results = ({ isVisible, gameStatus }: ResultsScreenProps) => {
   const gameLevel = useAppSelector(selectSessionGameLevel);
   const gameMode = useAppSelector(selectGameMode);
 
+  const hasSavedRef = useRef(false);
+
   useEffect(() => {
-    if (isVisible) {
-      const initialTime = 100;
-      const timeSpent = initialTime - gameTime;
+    if (isVisible && !hasSavedRef.current) {
+      hasSavedRef.current = true;
+
+      const timeSpent = 100 - gameTime;
+
       dispatch(
         addResult({
           level: gameLevel,
           date: new Date().toISOString(),
           time: timeSpent,
           gameMode,
-          status: gameStatus,
         }),
       );
+
+      if (gameStatus === 'completed') {
+        dispatch(updateBestTime({ mode: gameMode, time: timeSpent }));
+      }
     }
-  }, [isVisible, dispatch, gameTime, gameLevel, gameMode, gameStatus]);
 
-  const initialTime = 100;
-  const timeSpent = initialTime - gameTime;
+    if (!isVisible) {
+      hasSavedRef.current = false;
+    }
+  }, [isVisible, gameTime, gameLevel, gameMode, gameStatus, dispatch]);
 
-  const titleMap = {
-    completed: 'You did it! All pairs matched — great focus!',
-    failed: 'Game over.',
-  };
-  const messageMap = {
-    completed: `Time: ${timeSpent} sec`,
-    failed: 'Time or lives ran out — try again!',
-  };
-
-  const title = titleMap[gameStatus];
-  const message = messageMap[gameStatus];
+  const timeSpent = 100 - gameTime;
+  const title =
+    gameStatus === 'completed'
+      ? 'You did it! All pairs matched!'
+      : 'Game over.';
+  const message =
+    gameStatus === 'completed'
+      ? `Total Time: ${timeSpent} sec`
+      : 'Time or lives ran out — try again!';
 
   const handleRestart = () => {
     dispatch(resetSessionGame());
@@ -101,13 +108,23 @@ const Results = ({ isVisible, gameStatus }: ResultsScreenProps) => {
             <CustomText extraStyle={styles.message}>{message}</CustomText>
           </FrameContainer>
 
-          <View style={styles.buttonsContainer}>
-            <CustomButton variant="yellow" handlePress={handleRestart}>
+          <View style={styles.buttonsWrapper}>
+            <CustomButton
+              variant="yellow"
+              handlePress={handleRestart}
+              buttonStyle={styles.button}
+              extraContainerStyle={styles.buttonContainer}
+            >
               <CustomText extraStyle={styles.buttonText}>
                 {gameStatus === 'completed' ? 'Play Again' : 'Restart'}
               </CustomText>
             </CustomButton>
-            <CustomButton variant="yellow" handlePress={handleMenu}>
+            <CustomButton
+              variant="yellow"
+              handlePress={handleMenu}
+              buttonStyle={styles.button}
+              extraContainerStyle={styles.buttonContainer}
+            >
               <CustomText extraStyle={styles.buttonText}>Menu</CustomText>
             </CustomButton>
           </View>
