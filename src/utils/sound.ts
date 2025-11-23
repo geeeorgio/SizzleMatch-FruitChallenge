@@ -7,7 +7,7 @@ let failureSound: Sound | null = null;
 let bgSound: Sound | null = null;
 let inited = false;
 
-export const initSounds = () => {
+export const initSounds = (onBgLoad?: () => void) => {
   if (inited) return;
 
   inited = true;
@@ -16,14 +16,14 @@ export const initSounds = () => {
     if (e) {
       console.log('success sound load error', e);
       return;
-    } else successSound?.setVolume(0.12);
+    } else successSound?.setVolume(0.2);
   });
 
   failureSound = new Sound('loss.mp3', Sound.MAIN_BUNDLE, (e) => {
     if (e) {
       console.log('failure sound load error', e);
       return;
-    } else failureSound?.setVolume(0.12);
+    } else failureSound?.setVolume(0.1);
   });
 
   bgSound = new Sound('music.mp3', Sound.MAIN_BUNDLE, (e) => {
@@ -32,7 +32,11 @@ export const initSounds = () => {
       return;
     }
     bgSound?.setNumberOfLoops(-1);
-    bgSound?.setVolume(0.07);
+    bgSound?.setVolume(0.15);
+
+    if (onBgLoad) {
+      onBgLoad();
+    }
   });
 };
 
@@ -44,13 +48,12 @@ export const playSuccessSound = (isEnabled: boolean) => {
     return;
   }
 
-  successSound.stop(() => {
-    successSound?.setCurrentTime(0);
-    successSound?.play((success) => {
-      if (!success) {
-        console.log('Failed to play success sound');
-      }
-    });
+  successSound.stop();
+  successSound.setCurrentTime(1);
+  successSound.play((success) => {
+    if (!success) {
+      console.log('Failed to play success sound');
+    }
   });
 };
 
@@ -62,30 +65,24 @@ export const playFailureSound = (isEnabled: boolean) => {
     return;
   }
 
-  failureSound.stop(() => {
-    failureSound?.setCurrentTime(0);
-    failureSound?.play((success) => {
-      if (!success) {
-        console.log('Failed to play failure sound');
-      }
-    });
+  failureSound.stop();
+  failureSound.setCurrentTime(0);
+  failureSound.play((success) => {
+    if (!success) {
+      console.log('Failed to play failure sound');
+    }
   });
 };
 
 export const playBgSound = (isEnabled: boolean) => {
   if (!isEnabled || !bgSound) return;
 
-  if (!bgSound) {
-    console.log('bg sound not ready');
-    return;
-  }
+  if (bgSound.isPlaying()) return;
 
-  bgSound.stop(() => {
-    bgSound?.play((success) => {
-      if (!success) {
-        console.log('bg playback failed');
-      }
-    });
+  bgSound?.play((success) => {
+    if (!success) {
+      console.log('bg playback failed');
+    }
   });
 };
 

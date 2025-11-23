@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { FRUITS } from 'src/constants';
@@ -39,7 +40,14 @@ import {
 } from 'src/redux/slices/settings/selectors';
 import type { FruitItem, GameMode } from 'src/types';
 import { renderFruitList } from 'src/utils/renderFruitList';
-import { playFailureSound, playSuccessSound } from 'src/utils/sound';
+import {
+  cleanupSounds,
+  initSounds,
+  playBgSound,
+  playFailureSound,
+  playSuccessSound,
+  stopBgSound,
+} from 'src/utils/sound';
 import { triggerVibration } from 'src/utils/vibration';
 
 export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
@@ -79,6 +87,21 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
     gameTimeRef.current = gameTime;
   }, [gameTime]);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (isSoundEnabled) {
+        initSounds(() => playBgSound(isSoundEnabled));
+      }
+
+      return () => {
+        if (isSoundEnabled) {
+          stopBgSound();
+          cleanupSounds();
+        }
+      };
+    }, [isSoundEnabled]),
+  );
+
   useEffect(() => {
     setIsProcessing(true);
     const allCardIds = gameItems.map((item) => item.id);
@@ -87,7 +110,7 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
     const timer = setTimeout(() => {
       dispatch(clearInitialCardReveal());
       setIsProcessing(false);
-    }, 1717);
+    }, 1515);
     addTimer(timer);
 
     return () => {

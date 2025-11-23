@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    flex: 0.6,
+    flex: 0.7,
     width: '100%',
     maxHeight: hp(600),
     padding: wp(16),
@@ -29,9 +29,8 @@ export const styles = StyleSheet.create({
     height: wp(28),
   },
   title: {
-    fontSize: sp(22),
+    fontSize: sp(20),
     textAlign: 'center',
-    marginBottom: hp(24),
   },
   emptyContainer: {
     width: '100%',
@@ -98,18 +97,16 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   dialogTitle: {
-    fontSize: sp(18),
+    fontSize: sp(16),
     fontFamily: FONTS.RobotoBold,
     textAlign: 'center',
     lineHeight: sp(26),
-    marginBottom: hp(20),
   },
   dialogMessage: {
-    fontSize: sp(18),
+    fontSize: sp(14),
     fontFamily: FONTS.RobotoItalic,
     textAlign: 'center',
     lineHeight: sp(24),
-    marginBottom: hp(8),
   },
   dialogButtons: {
     width: '100%',
@@ -127,7 +124,7 @@ export const styles = StyleSheet.create({
     paddingVertical: hp(6),
   },
   dialogBtnText: {
-    fontSize: sp(18),
+    fontSize: sp(16),
     fontFamily: FONTS.RobotoBold,
   },
 });

@@ -27,10 +27,10 @@ export const styles = StyleSheet.create({
     height: wp(28),
   },
   title: {
-    fontSize: sp(22),
+    fontSize: sp(20),
     textAlign: 'center',
     marginTop: hp(8),
-    marginBottom: hp(22),
+    marginBottom: hp(8),
   },
   achievementsContainer: {
     flex: 1,
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   },
   achievementsList: {
     paddingBottom: hp(16),
-    gap: wp(16),
+    gap: wp(12),
   },
   achievementsColumnWrapper: {
     justifyContent: 'space-between',
@@ -60,7 +60,8 @@ export const styles = StyleSheet.create({
   },
   achievementImage: {
     width: '100%',
-    height: hp(120),
+    height: hp(121),
+    maxHeight: hp(131),
     marginBottom: hp(12),
   },
   achievementInfo: {
@@ -68,12 +69,12 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   achievementTitle: {
-    fontSize: sp(15),
+    fontSize: sp(12),
     marginBottom: hp(4),
     textAlign: 'center',
   },
   achievementDescription: {
-    fontSize: sp(11),
+    fontSize: sp(9),
     fontFamily: FONTS.RobotoItalic,
     textAlign: 'center',
     lineHeight: sp(16),

@@ -31,9 +31,8 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    fontSize: sp(20),
+    fontSize: sp(18),
     textAlign: 'center',
-    marginBottom: hp(30),
     fontFamily: FONTS.RobotoItalic,
     lineHeight: sp(24),
   },

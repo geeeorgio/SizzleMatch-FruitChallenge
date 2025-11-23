@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    flex: 0.6,
+    flex: 0.7,
     maxHeight: hp(600),
     width: '100%',
     padding: wp(16),
@@ -29,12 +29,12 @@ export const styles = StyleSheet.create({
     height: wp(28),
   },
   title: {
-    fontSize: sp(22),
+    fontSize: sp(20),
     textAlign: 'center',
   },
   settingsContainer: {
     width: '100%',
-    gap: hp(20),
+    gap: hp(22),
   },
   settingRow: {
     flexDirection: 'row',
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
   },
   shareIcon: {
     width: wp(48),
-    height: hp(24),
+    height: hp(28),
   },
   toggleTrack: {
     width: wp(48),
@@ -81,11 +81,10 @@ export const styles = StyleSheet.create({
   difficultySection: {
     width: '100%',
     alignItems: 'center',
-    marginBottom: hp(20),
   },
   difficultyTitle: {
     fontSize: sp(20),
-    marginBottom: hp(20),
+    marginBottom: hp(22),
   },
   difficultySelector: {
     flexDirection: 'row',
@@ -94,7 +93,7 @@ export const styles = StyleSheet.create({
     width: '75%',
   },
   difficultyValue: {
-    fontSize: sp(18),
+    fontSize: sp(20),
     textAlign: 'center',
     minWidth: wp(70),
   },
@@ -102,8 +101,8 @@ export const styles = StyleSheet.create({
     padding: hp(6),
   },
   arrowCircle: {
-    width: wp(28),
-    height: wp(28),
+    width: wp(30),
+    height: wp(30),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -122,7 +121,5 @@ export const styles = StyleSheet.create({
   },
   saveButtonText: {
     fontSize: sp(18),
-    fontWeight: '700',
-    color: '#FFFFFF',
   },
 });

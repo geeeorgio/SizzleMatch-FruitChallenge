@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.44)',
     paddingVertical: hp(33),
   },
   container: {
@@ -38,16 +38,14 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    fontSize: sp(22),
+    fontSize: sp(20),
     fontFamily: FONTS.RobotoBold,
     textAlign: 'center',
-    marginBottom: hp(20),
   },
   message: {
-    fontSize: sp(18),
+    fontSize: sp(16),
     fontFamily: FONTS.RobotoItalic,
     textAlign: 'center',
-    marginBottom: hp(20),
   },
   buttonsWrapper: {
     width: '100%',
@@ -65,7 +63,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: sp(18),
+    fontSize: sp(17),
     fontFamily: FONTS.RobotoBold,
     textAlign: 'center',
   },
