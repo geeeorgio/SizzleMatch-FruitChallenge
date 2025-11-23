@@ -1,5 +1,5 @@
 import { FRUITS, LEVEL_CONFIG } from 'src/constants';
-import type { GameMode } from 'src/types/gameplay';
+import type { FruitItem, GameMode } from 'src/types/gameplay';
 
 const shuffleArray = <T>(array: T[]): T[] => {
   const newArray = [...array];
@@ -10,17 +10,24 @@ const shuffleArray = <T>(array: T[]): T[] => {
   return newArray;
 };
 
-export const renderFruitList = (gameMode: GameMode, level: number) => {
+export const renderFruitList = (
+  gameMode: GameMode,
+  level: number,
+): FruitItem[] => {
   const modeSettings = LEVEL_CONFIG[gameMode];
-
   const pairsCount = modeSettings[level] || modeSettings[5];
 
-  const availableFruits = Object.entries(FRUITS).map(([name, img]) => ({
+  const allFruits = Object.entries(FRUITS).map(([name, img]) => ({
     name,
     img,
   }));
 
-  const selectedFruits = shuffleArray(availableFruits).slice(0, pairsCount);
+  const selectedFruits = [];
+  const shuffledAvailable = shuffleArray(allFruits);
+
+  for (let i = 0; i < pairsCount; i++) {
+    selectedFruits.push(shuffledAvailable[i % shuffledAvailable.length]);
+  }
 
   const gameItems = selectedFruits.flatMap((item) => {
     return [

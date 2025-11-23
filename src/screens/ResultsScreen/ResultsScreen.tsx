@@ -13,6 +13,7 @@ import {
 } from 'src/components';
 import { GAME_ITEMS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks/toolkit';
+import { resetAchievements } from 'src/redux/slices/achievements/slice';
 import { selectResults } from 'src/redux/slices/results/selectors';
 import { clearResults } from 'src/redux/slices/results/slice';
 import type { MainStackNavigationProp } from 'src/types';
@@ -30,6 +31,7 @@ const ResultsScreen = () => {
 
   const handleConfirmClear = () => {
     dispatch(clearResults());
+    dispatch(resetAchievements());
     setShowClearDialog(false);
   };
 

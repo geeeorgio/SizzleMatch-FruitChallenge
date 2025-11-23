@@ -23,9 +23,12 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   winnerContainer: {
-    flex: 1,
+    flex: 0.8,
+    maxHeight: hp(333),
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 10,
   },
   winnerImage: {
     width: '100%',

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Image, Modal, View } from 'react-native';
 
 import { styles } from './styles';
@@ -12,19 +12,13 @@ import {
 } from 'src/components';
 import { GAME_ITEMS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks/toolkit';
-import {
-  selectSessionGameLevel,
-  selectSessionGameTime,
-} from 'src/redux/slices/gameplay/selectors';
+import { selectSessionGameTime } from 'src/redux/slices/gameplay/selectors';
 import {
   resetGame,
   resetSessionGame,
   setGameStarted,
   setGameStatus,
-  updateBestTime,
 } from 'src/redux/slices/gameplay/slice';
-import { addResult } from 'src/redux/slices/results/slice';
-import { selectGameMode } from 'src/redux/slices/settings/selectors';
 import type { MainStackNavigationProp } from 'src/types';
 
 type ResultsScreenProps = {
@@ -35,37 +29,13 @@ type ResultsScreenProps = {
 const Results = ({ isVisible, gameStatus }: ResultsScreenProps) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<MainStackNavigationProp>();
-
   const gameTime = useAppSelector(selectSessionGameTime);
-  const gameLevel = useAppSelector(selectSessionGameLevel);
-  const gameMode = useAppSelector(selectGameMode);
 
-  const hasSavedRef = useRef(false);
+  const [showWinnerAnimation, setShowWinnerAnimation] = useState(true);
 
-  useEffect(() => {
-    if (isVisible && !hasSavedRef.current) {
-      hasSavedRef.current = true;
-
-      const timeSpent = 100 - gameTime;
-
-      dispatch(
-        addResult({
-          level: gameLevel,
-          date: new Date().toISOString(),
-          time: timeSpent,
-          gameMode,
-        }),
-      );
-
-      if (gameStatus === 'completed') {
-        dispatch(updateBestTime({ mode: gameMode, time: timeSpent }));
-      }
-    }
-
-    if (!isVisible) {
-      hasSavedRef.current = false;
-    }
-  }, [isVisible, gameTime, gameLevel, gameMode, gameStatus, dispatch]);
+  const handleWinnerAnimationEnd = () => {
+    setShowWinnerAnimation(false);
+  };
 
   const timeSpent = 100 - gameTime;
   const title =
@@ -89,7 +59,12 @@ const Results = ({ isVisible, gameStatus }: ResultsScreenProps) => {
   };
 
   return (
-    <Modal visible={isVisible} transparent animationType="fade">
+    <Modal
+      visible={isVisible}
+      transparent
+      animationType="fade"
+      statusBarTranslucent
+    >
       <View style={styles.overlay}>
         <View style={styles.container}>
           {gameStatus === 'completed' && (
@@ -99,7 +74,9 @@ const Results = ({ isVisible, gameStatus }: ResultsScreenProps) => {
                 style={styles.winnerImage}
                 resizeMode="contain"
               />
-              <WinnerAnimation onEnd={() => {}} />
+              {showWinnerAnimation && (
+                <WinnerAnimation onEnd={handleWinnerAnimationEnd} />
+              )}
             </View>
           )}
 

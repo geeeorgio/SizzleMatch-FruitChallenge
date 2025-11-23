@@ -52,7 +52,6 @@ const slice = createSlice({
   reducers: {
     setGameStarted: (state, action: PayloadAction<boolean>) => {
       state.isGameStarted = action.payload;
-      console.log('setGameStarted', state.isGameStarted);
     },
 
     updateBestTime: (
@@ -61,8 +60,6 @@ const slice = createSlice({
     ) => {
       const { mode, time } = action.payload;
       const currentBest = state.bestTimes[mode];
-      console.log('updateBestTime', currentBest);
-      console.log('updateBestTime', time);
 
       if (currentBest === 0 || time < currentBest) {
         state.bestTimes[mode] = time;
@@ -71,17 +68,14 @@ const slice = createSlice({
 
     setNextSessionGameLevel: (state) => {
       const currentLevel = state.sessionGame.gameLevel;
-      console.log('setNextSessionGameLevel', currentLevel);
 
       if (currentLevel >= 5) {
         state.gameStatus = 'completed';
-        console.log('setNextSessionGameLevel', state.gameStatus);
         return;
       }
 
       state.sessionGame.gameLevel = currentLevel + 1;
-
-      console.log('setNextSessionGameLevel', state.sessionGame.gameLevel);
+      state.sessionGame.gameLives = 3;
 
       state.cardState.flippedCardIds = [];
       state.cardState.matchedCardIds = [];
@@ -95,35 +89,25 @@ const slice = createSlice({
     },
     setGameStatus: (state, action: PayloadAction<GameStatus>) => {
       state.gameStatus = action.payload;
-      console.log('setGameStatus', state.gameStatus);
     },
     setGamePaused: (state) => {
       state.gameStatus = 'paused';
-      console.log('setGamePaused', state.gameStatus);
     },
     setGameResumed: (state) => {
       state.gameStatus = 'in-progress';
-      console.log('setGameResumed', state.gameStatus);
     },
 
     resetSessionGame: (state) => {
       state.sessionGame = { ...initialSessionGame };
-      console.log('resetSessionGame', state.sessionGame);
 
       const savedFruits = state.cardState.unlockedFruits;
-
-      console.log('resetSessionGame', savedFruits);
 
       state.cardState = {
         ...initialCardState,
         unlockedFruits: savedFruits,
       };
 
-      console.log('resetSessionGame', state.cardState);
-
       state.gameStatus = 'pending';
-
-      console.log('resetSessionGame', state.gameStatus);
     },
     flipCard: (state, action: PayloadAction<string>) => {
       const cardId = action.payload;

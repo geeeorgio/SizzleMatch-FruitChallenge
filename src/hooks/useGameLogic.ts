@@ -16,6 +16,7 @@ import {
   selectMatchedCardIds,
   selectSelectedCardIds,
   selectSessionGameLives,
+  selectSessionGameTime,
   selectUnlockedFruits,
 } from 'src/redux/slices/gameplay/selectors';
 import {
@@ -29,7 +30,9 @@ import {
   setGameStatus,
   setInitialCardReveal,
   setNextSessionGameLevel,
+  updateBestTime,
 } from 'src/redux/slices/gameplay/slice';
+import { addResult } from 'src/redux/slices/results/slice';
 import {
   selectIsSoundEnabled,
   selectIsVibrationEnabled,
@@ -47,12 +50,12 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
     [gameMode, sessionGameLevel],
   );
 
-  const [showMatchAnimation, setShowMatchAnimation] = useState(false);
-
+  const [animatingCardIds, setAnimatingCardIds] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(true);
 
-  const timersRef = useRef<number[]>([]);
-  const addTimer = (timer: number) => timersRef.current.push(timer);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const addTimer = (timer: ReturnType<typeof setTimeout>) =>
+    timersRef.current.push(timer);
 
   const flippedCardIds = useAppSelector(selectFlippedCardIds);
   const matchedCardIds = useAppSelector(selectMatchedCardIds);
@@ -69,6 +72,13 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
   const heatClearCompleted = useAppSelector(selectHeatClearCompleted);
   const fruitCollectorCompleted = useAppSelector(selectFruitCollectorCompleted);
 
+  const gameTime = useAppSelector(selectSessionGameTime);
+  const gameTimeRef = useRef(gameTime);
+
+  useEffect(() => {
+    gameTimeRef.current = gameTime;
+  }, [gameTime]);
+
   useEffect(() => {
     setIsProcessing(true);
     const allCardIds = gameItems.map((item) => item.id);
@@ -77,7 +87,7 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
     const timer = setTimeout(() => {
       dispatch(clearInitialCardReveal());
       setIsProcessing(false);
-    }, 1212);
+    }, 1717);
     addTimer(timer);
 
     return () => {
@@ -96,7 +106,7 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
       setIsProcessing(true);
 
       if (card1.fruitName === card2.fruitName) {
-        setShowMatchAnimation(true);
+        setAnimatingCardIds([card1Id, card2Id]);
         playSuccessSound(isSoundEnabled);
 
         dispatch(
@@ -109,7 +119,6 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
         if (consecutiveMatches + 1 >= 7 && !lucky7Completed) {
           dispatch(addCompletedAchievement({ id: 'lucky7' }));
         }
-
         const isNewFruit = !unlockedFruits.includes(card1.fruitName);
         if (
           unlockedFruits.length + (isNewFruit ? 1 : 0) >=
@@ -119,11 +128,48 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
           dispatch(addCompletedAchievement({ id: 'fruitCollector' }));
         }
 
-        const t = setTimeout(() => {
-          setShowMatchAnimation(false);
-          setIsProcessing(false);
-        }, 1500);
-        addTimer(t);
+        const currentMatchedCount = matchedCardIds.length + 2;
+        const totalCards = gameItems.length;
+
+        if (currentMatchedCount >= totalCards) {
+          dispatch(incrementLevelWithoutMistakes());
+
+          if (sessionGameLevel >= 5) {
+            if (levelsWithoutMistakes + 1 >= 3 && !flawless3Completed) {
+              dispatch(addCompletedAchievement({ id: 'flawless3' }));
+            }
+            if (gameMode === 'heat' && !heatClearCompleted) {
+              dispatch(addCompletedAchievement({ id: 'heatClear' }));
+            }
+
+            const timeSpent = 100 - gameTimeRef.current;
+
+            dispatch(
+              addResult({
+                level: sessionGameLevel,
+                date: new Date().toISOString(),
+                time: timeSpent,
+                gameMode,
+              }),
+            );
+
+            dispatch(updateBestTime({ mode: gameMode, time: timeSpent }));
+
+            dispatch(setGameStatus('completed'));
+          } else {
+            const t = setTimeout(() => {
+              setAnimatingCardIds([]);
+              dispatch(setNextSessionGameLevel());
+            }, 777);
+            addTimer(t);
+          }
+        } else {
+          const t = setTimeout(() => {
+            setAnimatingCardIds([]);
+            setIsProcessing(false);
+          }, 1200);
+          addTimer(t);
+        }
       } else {
         playFailureSound(isSoundEnabled);
         triggerVibration(isVibrationEnabled);
@@ -131,11 +177,12 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
 
         const t = setTimeout(() => {
           dispatch(mismatchCards());
+
           if (gameLives > 1) {
             dispatch(resetCardSelection());
             setIsProcessing(false);
           }
-        }, 1000);
+        }, 777);
         addTimer(t);
       }
     },
@@ -149,6 +196,12 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
       lucky7Completed,
       fruitCollectorCompleted,
       gameLives,
+      matchedCardIds.length,
+      sessionGameLevel,
+      gameMode,
+      levelsWithoutMistakes,
+      flawless3Completed,
+      heatClearCompleted,
     ],
   );
 
@@ -176,43 +229,6 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
   }, [selectedCardIds, isProcessing, processMatch]);
 
   useEffect(() => {
-    const totalPairs = gameItems.length / 2;
-    const matchedPairs = matchedCardIds.length / 2;
-
-    if (matchedPairs > 0 && matchedPairs >= totalPairs) {
-      if (isProcessing) return;
-
-      setIsProcessing(true);
-      dispatch(incrementLevelWithoutMistakes());
-
-      if (sessionGameLevel >= 5) {
-        if (levelsWithoutMistakes + 1 >= 3 && !flawless3Completed) {
-          dispatch(addCompletedAchievement({ id: 'flawless3' }));
-        }
-        if (gameMode === 'heat' && !heatClearCompleted) {
-          dispatch(addCompletedAchievement({ id: 'heatClear' }));
-        }
-        dispatch(setGameStatus('completed'));
-      } else {
-        const t = setTimeout(() => {
-          dispatch(setNextSessionGameLevel());
-        }, 500);
-        addTimer(t);
-      }
-    }
-  }, [
-    matchedCardIds.length,
-    gameItems.length,
-    dispatch,
-    levelsWithoutMistakes,
-    flawless3Completed,
-    heatClearCompleted,
-    sessionGameLevel,
-    gameMode,
-    isProcessing,
-  ]);
-
-  useEffect(() => {
     return () => {
       timersRef.current.forEach(clearTimeout);
     };
@@ -222,8 +238,7 @@ export const useGameLogic = (gameMode: GameMode, sessionGameLevel: number) => {
     gameItems,
     flippedCardIds,
     matchedCardIds,
-    showMatchAnimation,
     onCardPress,
-    setShowMatchAnimation,
+    animatingCardIds,
   };
 };

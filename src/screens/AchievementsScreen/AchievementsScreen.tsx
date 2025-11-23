@@ -51,7 +51,12 @@ const AchievementsScreen = () => {
                 : item.defaultReward;
 
               return (
-                <View style={styles.achievementItem}>
+                <View
+                  style={[
+                    styles.achievementItem,
+                    isCompleted && styles.completedAchievementItem,
+                  ]}
+                >
                   <Image
                     source={iconSource}
                     resizeMode="contain"

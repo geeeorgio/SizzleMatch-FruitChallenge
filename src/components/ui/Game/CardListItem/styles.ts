@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   matched: {
-    opacity: 0.6,
+    opacity: 0.7,
   },
 });

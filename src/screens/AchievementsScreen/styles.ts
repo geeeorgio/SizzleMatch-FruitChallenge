@@ -48,6 +48,15 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    padding: wp(6),
+    borderRadius: wp(16),
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  completedAchievementItem: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.33)',
   },
   achievementImage: {
     width: '100%',

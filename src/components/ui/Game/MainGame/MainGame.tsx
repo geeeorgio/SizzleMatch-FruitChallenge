@@ -25,14 +25,13 @@ const MainGame = () => {
     gameItems,
     flippedCardIds,
     matchedCardIds,
-    showMatchAnimation,
     onCardPress,
-    setShowMatchAnimation,
+    animatingCardIds,
   } = useGameLogic(gameMode, sessionGameLevel);
 
   const { width } = useWindowDimensions();
-  const horizontalPadding = wp(6);
-  const gap = wp(6);
+  const horizontalPadding = wp(3);
+  const gap = wp(3);
 
   const cardCount = gameItems.length;
 
@@ -45,10 +44,6 @@ const MainGame = () => {
 
   const cardSize =
     (width - horizontalPadding * 2 - gap * (columns - 1)) / columns;
-
-  const handleAnimationEnd = () => {
-    setShowMatchAnimation(false);
-  };
 
   const handleGamePause = () => {
     dispatch(setGamePaused());
@@ -73,11 +68,12 @@ const MainGame = () => {
               isMatched={matchedCardIds.includes(item.id)}
               onCardPress={onCardPress}
             />
+            {animatingCardIds.includes(item.id) && (
+              <CorrectAnimation onEnd={() => {}} />
+            )}
           </View>
         ))}
       </View>
-
-      {showMatchAnimation && <CorrectAnimation onEnd={handleAnimationEnd} />}
 
       <CustomButton
         buttonStyle={styles.menuButton}
