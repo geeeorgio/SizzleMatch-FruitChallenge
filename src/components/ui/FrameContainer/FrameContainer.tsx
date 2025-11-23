@@ -14,13 +14,13 @@ interface FrameContainerProps {
 
 const FrameContainer = ({ children, extraStyle }: FrameContainerProps) => {
   return (
-    <View style={[styles.container, extraStyle]}>
+    <View style={[styles.wrapper, extraStyle]}>
       <ImageBackground
         source={FRAME_BCKG}
         resizeMode="stretch"
-        style={styles.imageBackground}
+        style={styles.image}
       >
-        <View style={styles.textWrapper}>{children}</View>
+        <View style={styles.content}>{children}</View>
       </ImageBackground>
     </View>
   );

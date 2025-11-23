@@ -29,17 +29,15 @@ const OnboardingScreen3 = () => {
       />
 
       <View style={styles.bottomContentContainer}>
-        <View style={styles.frameWrapper}>
-          <FrameContainer>
-            <CustomText extraStyle={styles.title}>
-              Play. Improve. Collect.
-            </CustomText>
-            <CustomText extraStyle={styles.description}>
-              Earn achievements, track your results, and adjust sound,
-              vibration, and difficulty anytime.
-            </CustomText>
-          </FrameContainer>
-        </View>
+        <FrameContainer extraStyle={styles.frameContainer}>
+          <CustomText extraStyle={styles.title}>
+            Play. Improve. Collect.
+          </CustomText>
+          <CustomText extraStyle={styles.description}>
+            Earn achievements, track your results, and adjust sound, vibration,
+            and difficulty anytime.
+          </CustomText>
+        </FrameContainer>
       </View>
 
       <CustomButton

@@ -29,17 +29,15 @@ const OnboardingScreen2 = () => {
       />
 
       <View style={styles.bottomContentContainer}>
-        <View style={styles.frameWrapper}>
-          <FrameContainer>
-            <CustomText extraStyle={styles.title}>
-              Three Modes, Five Stages Each
-            </CustomText>
-            <CustomText extraStyle={styles.description}>
-              Choose Easy, Classic, or Heat mode. Each level adds more cards and
-              tests your memory deeper.
-            </CustomText>
-          </FrameContainer>
-        </View>
+        <FrameContainer extraStyle={styles.frameContainer}>
+          <CustomText extraStyle={styles.title}>
+            Three Modes, Five Stages Each
+          </CustomText>
+          <CustomText extraStyle={styles.description}>
+            Choose Easy, Classic, or Heat mode. Each level adds more cards and
+            tests your memory deeper.
+          </CustomText>
+        </FrameContainer>
       </View>
 
       <CustomButton

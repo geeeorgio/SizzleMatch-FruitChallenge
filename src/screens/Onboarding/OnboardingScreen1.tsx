@@ -29,17 +29,15 @@ const OnboardingScreen1 = () => {
       />
 
       <View style={styles.bottomContentContainer}>
-        <View style={styles.frameWrapper}>
-          <FrameContainer>
-            <CustomText extraStyle={styles.title}>
-              Watch the Time, Keep Your Lives
-            </CustomText>
-            <CustomText extraStyle={styles.description}>
-              You have 100 seconds and 3 lives. Every mismatch costs one — stay
-              focused till the end!
-            </CustomText>
-          </FrameContainer>
-        </View>
+        <FrameContainer extraStyle={styles.frameContainer}>
+          <CustomText extraStyle={styles.title}>
+            Watch the Time, Keep Your Lives
+          </CustomText>
+          <CustomText extraStyle={styles.description}>
+            You have 100 seconds and 3 lives. Every mismatch costs one — stay
+            focused till the end!
+          </CustomText>
+        </FrameContainer>
       </View>
 
       <CustomButton

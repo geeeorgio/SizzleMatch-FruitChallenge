@@ -25,19 +25,17 @@ const OnboardingScreen0 = () => {
       <Image
         source={GAME_ITEMS.onboarding1}
         style={styles.backgroundImage}
-        resizeMode="contain"
+        resizeMode="cover"
       />
 
       <View style={styles.bottomContentContainer}>
-        <View style={styles.frameWrapper}>
-          <FrameContainer>
-            <CustomText extraStyle={styles.title}>Match the Fruits</CustomText>
-            <CustomText extraStyle={styles.description}>
-              Flip the cards, find matching fruits, and clear the board before
-              time runs out.
-            </CustomText>
-          </FrameContainer>
-        </View>
+        <FrameContainer extraStyle={styles.frameContainer}>
+          <CustomText extraStyle={styles.title}>Match the Fruits</CustomText>
+          <CustomText extraStyle={styles.description}>
+            Flip the cards, find matching fruits, and clear the board before
+            time runs out.
+          </CustomText>
+        </FrameContainer>
       </View>
 
       <CustomButton

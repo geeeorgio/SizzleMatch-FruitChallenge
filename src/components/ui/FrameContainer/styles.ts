@@ -3,18 +3,21 @@ import { StyleSheet } from 'react-native';
 import { hp } from 'src/utils';
 
 export const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     width: '100%',
-  },
-  imageBackground: {
-    width: '100%',
-    aspectRatio: 1.4,
-    justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  textWrapper: {
-    width: '75%',
+  image: {
+    width: '100%',
+    aspectRatio: 1.48,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: hp(24),
+    paddingTop: '20%',
+  },
+  content: {
+    width: '82%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: hp(16),
   },
 });

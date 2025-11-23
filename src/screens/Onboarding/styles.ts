@@ -7,50 +7,51 @@ export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     paddingHorizontal: 0,
-    paddingVertical: hp(40),
+    paddingVertical: hp(33),
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   backgroundImage: {
     position: 'absolute',
-    top: 0,
+    top: hp(33),
     left: 0,
     bottom: 0,
     right: 0,
     width: '100%',
     height: '66%',
     zIndex: -1,
-    opacity: 0.85,
+    opacity: 0.8,
   },
   bottomContentContainer: {
-    flex: 0.9,
+    flex: 1,
+    width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    paddingBottom: hp(24),
   },
-  frameWrapper: {
+  frameContainer: {
     width: '100%',
   },
   title: {
-    fontSize: sp(21),
+    fontSize: sp(16),
     textAlign: 'center',
-    marginBottom: hp(18),
   },
   description: {
-    fontSize: sp(18),
+    fontSize: sp(14),
     fontFamily: FONTS.RobotoItalic,
     textAlign: 'center',
-    lineHeight: sp(24),
+    lineHeight: sp(22),
   },
   btn: {
     width: '100%',
   },
   btnGradientContainer: {
-    width: '35%',
+    width: '40%',
     paddingVertical: hp(8),
     borderRadius: wp(36),
   },
   btnText: {
-    fontSize: sp(18),
+    fontSize: sp(16),
     textAlign: 'center',
   },
 });
